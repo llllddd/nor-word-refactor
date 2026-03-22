@@ -1,0 +1,19 @@
+.nh-manager-trigger {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 2147483647;
+  border: 0;
+  border-radius: 999px;
+  padding: 8px 12px;
+  background: #ff9800;
+  color: #fff;
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.24);
+}
+
+.nh-manager-trigger:hover {
+  background: #fb8c00;
+}
