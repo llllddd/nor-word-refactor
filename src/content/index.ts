@@ -1,3 +1,4 @@
+// Then entrance to invoke the app builder
 import "../styles/main.css";
 import { createAppController } from "../app/createAppController";
 

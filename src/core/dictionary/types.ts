@@ -8,7 +8,7 @@ export interface DictionaryEntry{
     inflection?:string,
     description?:string,
     examples?:string[] | string,
-    level?: number | string
+    level?: string
 }
 
 export type DictionaryList = DictionaryEntry[]

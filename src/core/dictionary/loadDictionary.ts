@@ -3,6 +3,7 @@ import type { DictionaryList } from "./types";
 export const NOR_DICTIONARY_URL = chrome.runtime.getURL("wordsdetail.json");
 export const NOR_OWN_URL = chrome.runtime.getURL("myown.json");
 
+// Read wordsdctionary from the json file
 export async function loadDictionary(url: string): Promise<DictionaryList> {
   try {
     const response = await fetch(url);
@@ -16,6 +17,7 @@ export async function loadDictionary(url: string): Promise<DictionaryList> {
   }
 }
 
+// Load dictionary list
 export async function loadAllDictionaries() {
   const [main, myown] = await Promise.all([
     loadDictionary(NOR_DICTIONARY_URL),
