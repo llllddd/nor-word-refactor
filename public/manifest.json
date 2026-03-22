@@ -1,0 +1,20 @@
+{
+  "manifest_version": 3,
+  "name": "Norwegian Word Highlighter Rebuild",
+  "version": "0.1.0",
+  "description": "Rebuilt MV3 extension for Norwegian word highlighting",
+  "permissions": ["storage"],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["assets/content.js"],
+      "css": ["assets/main.css"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["wordsdetail.json", "myown.json"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
