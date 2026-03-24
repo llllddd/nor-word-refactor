@@ -26,7 +26,7 @@ export function normalizeDictionaryEntry(raw: unknown): DictionaryEntry {
   const word = toSafeText(entry.word);
   const normalizedWord: DictionaryEntry = {
     word: word,
-    pos: toSafeText(entry.pos),
+    type: toSafeText(entry.type),
     meaning: toSafeText(entry.meaning),
     ord: toSafeText(entry.meaning),
     examples: normalizeExample(entry.examples),
