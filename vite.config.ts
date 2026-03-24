@@ -4,11 +4,6 @@ export default defineConfig(({ mode }) => {
   const isDebugBuild = mode === 'debug'
 
   return {
-    esbuild: isDebugBuild
-      ? {
-          keepNames: true
-        }
-      : undefined,
     build: {
       sourcemap: isDebugBuild ? 'inline' : false,
       minify: isDebugBuild ? false : 'esbuild',

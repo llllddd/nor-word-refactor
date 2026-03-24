@@ -17,3 +17,70 @@
 .nh-manager-trigger:hover {
   background: #fb8c00;
 }
+
+/* 高亮的样式 */
+.no-highlight-word {
+  background-color: rgba(255, 235, 59, 0.35);
+  border-bottom: 2px dotted #ff9800;
+  color: inherit;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+  padding: 0 1px;
+  border-radius: 3px;
+}
+
+.no-highlight-word:hover {
+  color: white;
+}
+
+.no-highlight-word.is-active {
+  color: white;
+}
+
+.no-highlight-word.no-highlight-level-500 {
+  background-color: rgba(38, 166, 154, 0.26);
+  border-bottom-color: #26a69a;
+}
+
+.no-highlight-word.no-highlight-level-500:hover,
+.no-highlight-word.no-highlight-level-500.is-active {
+  background-color: #26a69a;
+}
+
+.no-highlight-word.no-highlight-level-1500 {
+  background-color: rgba(66, 165, 245, 0.26);
+  border-bottom-color: #42a5f5;
+}
+
+.no-highlight-word.no-highlight-level-1500:hover,
+.no-highlight-word.no-highlight-level-1500.is-active {
+  background-color: #42a5f5;
+}
+
+.no-highlight-word.no-highlight-level-3000 {
+  background-color: rgba(255, 167, 38, 0.28);
+  border-bottom-color: #ffa726;
+}
+
+.no-highlight-word.no-highlight-level-3000:hover,
+.no-highlight-word.no-highlight-level-3000.is-active {
+  background-color: #ffa726;
+}
+
+.no-highlight-word.no-highlight-level-5000 {
+  background-color: rgba(239, 83, 80, 0.26);
+  border-bottom-color: #ef5350;
+}
+
+.no-highlight-word.no-highlight-level-5000:hover,
+.no-highlight-word.no-highlight-level-5000.is-active {
+  background-color: #ef5350;
+}
+
+/* 显示单词含义的样式 */
+.no-highlight-inline-meaning {
+  margin-left: 2px;
+  font-size: 0.9em;
+  color: #e53935;
+}

@@ -6,6 +6,9 @@ import { parseCustomEntryJson } from "../core/text/parseCustomEntryJson";
 import { mergeCustomEntries } from "../core/text/mergeCustomEntries";
 import { buildMatcher } from "../core/matcher/buildMatcher";
 import { findMatches } from "../core/matcher/findMatches";
+import { clearAllHighlights } from "../ui/ highlight/clearAllHighlights";
+import { highlightText } from "../ui/ highlight/highlightText";
+import { WORD_PATTERN } from "../core/text/wordPattern";
 
 export function createAppController() {
   return {
@@ -56,6 +59,9 @@ export function createAppController() {
       const matches = findMatches(sampleText, matcher);
       console.log("matches are:", matches);
 
+      clearAllHighlights()
+      const pageStats = highlightText(document.body, matcher, WORD_PATTERN, new Set())
+
       if (import.meta.env.MODE === "debug") {
         const debugGlobal = globalThis as typeof globalThis & {
           __nhDebug?: {
@@ -74,7 +80,7 @@ export function createAppController() {
         console.log("[Rebuild] debug handle: window.__nhDebug");
       }
 
-      createTestPanel();
+      createTestPanel(`命中:${pageStats}`);
     },
   };
 }
