@@ -9,6 +9,7 @@ import { findMatches } from "../core/matcher/findMatches";
 import { clearAllHighlights } from "../ui/ highlight/clearAllHighlights";
 import { highlightText } from "../ui/ highlight/highlightText";
 import { WORD_PATTERN } from "../core/text/wordPattern";
+import { setupTooltipInteractions } from '../ui/tooltip/setupTooltipInteractions'
 
 export function createAppController() {
   return {
@@ -61,25 +62,7 @@ export function createAppController() {
 
       clearAllHighlights()
       const pageStats = highlightText(document.body, matcher, WORD_PATTERN, new Set())
-
-      if (import.meta.env.MODE === "debug") {
-        const debugGlobal = globalThis as typeof globalThis & {
-          __nhDebug?: {
-            matcher: ReturnType<typeof buildMatcher>;
-            mainDict: typeof mainDict;
-            mergedMyOwn: typeof mergedMyOwn;
-            matches: typeof matches;
-          };
-        };
-        debugGlobal.__nhDebug = {
-          matcher,
-          mainDict,
-          mergedMyOwn,
-          matches,
-        };
-        console.log("[Rebuild] debug handle: window.__nhDebug");
-      }
-
+      setupTooltipInteractions()
       createTestPanel(`命中:${pageStats}`);
     },
   };
