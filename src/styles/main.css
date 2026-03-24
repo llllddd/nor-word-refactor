@@ -117,3 +117,24 @@
   font-size: 12px;
   color: #ccc;
 }
+
+/*tooltip 按钮样式*/
+.no-tooltip-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.no-tooltip-actions button {
+  border: 0;
+  border-radius: 6px;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-size: 12px;
+  background: #333;
+  color: #fff;
+}
+
+.no-tooltip-actions button:hover {
+  background: #555;
+}

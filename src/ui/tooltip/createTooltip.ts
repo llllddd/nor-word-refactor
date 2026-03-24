@@ -1,4 +1,4 @@
-import { TOOLTIP_CLASS } from '../ highlight/constants'
+import { TOOLTIP_CLASS } from '../highlight/constants'
 
 let tooltipEl: HTMLDivElement | null = null
 //创建tooltipDOM
@@ -15,6 +15,10 @@ export function createTooltip() {
       <div class="no-tooltip-type"></div>
       <div class="no-tooltip-meaning"></div>
       <div class="no-tooltip-inflection"></div>
+       <div class="no-tooltip-actions">
+        <button type="button" class="no-tooltip-disable-btn">禁用高亮</button>
+        <button type="button" class="no-tooltip-newword-btn">加入生词本</button>
+      </div>
     </div>
   `
 

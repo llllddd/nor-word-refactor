@@ -1,77 +1,120 @@
-import { HIGHLIGHT_CLASS, TOOLTIP_CLASS } from '../ highlight/constants'
-import { createTooltip } from './createTooltip'
+import { HIGHLIGHT_CLASS, TOOLTIP_CLASS } from "../highlight/constants";
+import { createTooltip } from "./createTooltip";
 
-export function setupTooltipInteractions() {
+interface TooltipActions {
+  disableWord(word: string): Promise<void>;
+  enableWord(word: string): Promise<void>;
+  addNewWord(word: string): Promise<void>;
+  removeNewWord(word: string): Promise<void>;
+  isDisabledWord(word: string): boolean;
+  isNewWord(word: string): boolean;
+}
+
+export function setupTooltipInteractions(actions: TooltipActions) {
   const tooltip = createTooltip()
-
+  let currentNormalizedWord = ''
+  
+  const disableBtn = tooltip.querySelector(
+    ".no-tooltip-disable-btn",
+  ) as HTMLButtonElement;
+  const newWordBtn = tooltip.querySelector(
+    ".no-tooltip-newword-btn",
+  ) as HTMLButtonElement;
   function hideTooltip() {
-    tooltip.style.display = 'none'
+    tooltip.style.display = "none";
+  }
+
+  function updateActionButtons() {
+    if (!currentNormalizedWord) return;
+
+    disableBtn.textContent = actions.isDisabledWord(currentNormalizedWord)
+      ? "恢复高亮"
+      : "禁用高亮";
+
+    newWordBtn.textContent = actions.isNewWord(currentNormalizedWord)
+      ? "移出生词本"
+      : "加入生词本";
   }
 
   function showTooltip(target: HTMLElement) {
-    const rect = target.getBoundingClientRect()
+    const rect = target.getBoundingClientRect();
 
-    const word = target.textContent || ''
-    const meaning = target.dataset.meaning || ''
-    const type = target.dataset.type || ''
-    const inflection = target.dataset.inflection || ''
+    const word = target.textContent || "";
+    const meaning = target.dataset.meaning || "";
+    const type = target.dataset.type || "";
+    const inflection = target.dataset.inflection || "";
 
-    tooltip.querySelector('.no-tooltip-word')!.textContent = word
-    tooltip.querySelector('.no-tooltip-type')!.textContent = type
-    tooltip.querySelector('.no-tooltip-meaning')!.textContent = meaning
-    tooltip.querySelector('.no-tooltip-inflection')!.textContent = inflection
+    tooltip.querySelector(".no-tooltip-word")!.textContent = word;
+    tooltip.querySelector(".no-tooltip-type")!.textContent = type;
+    tooltip.querySelector(".no-tooltip-meaning")!.textContent = meaning;
+    tooltip.querySelector(".no-tooltip-inflection")!.textContent = inflection;
 
-    tooltip.style.display = 'block'
+    updateActionButtons()
+    tooltip.style.display = "block";
 
-    const top = rect.bottom + window.scrollY + 6
-    const left = rect.left + window.scrollX
+    const top = rect.bottom + window.scrollY + 6;
+    const left = rect.left + window.scrollX;
 
-    tooltip.style.top = `${top}px`
-    tooltip.style.left = `${left}px`
+    tooltip.style.top = `${top}px`;
+    tooltip.style.left = `${left}px`;
   }
 
   // hover 高亮词显示 tooltip
-  document.addEventListener('mouseover', (e) => {
-    const target = e.target as HTMLElement | null
-    if (!target) return
+  document.addEventListener("mouseover", (e) => {
+    const target = e.target as HTMLElement | null;
+    if (!target) return;
 
-    const mark = target.closest(`.${HIGHLIGHT_CLASS}`) as HTMLElement | null
-    if (!mark) return
+    const mark = target.closest(`.${HIGHLIGHT_CLASS}`) as HTMLElement | null;
+    if (!mark) return;
 
-    showTooltip(mark)
-  })
+    showTooltip(mark);
+  });
 
-  // 鼠标离开高亮词且没有进入 tooltip 时关闭
-  document.addEventListener('mouseout', (e) => {
-    const target = e.target as HTMLElement | null
-    const next = e.relatedTarget as HTMLElement | null
-    if (!target) return
+ disableBtn.addEventListener('click', async (e) => {
+    e.stopPropagation()
+    if (!currentNormalizedWord) return
 
-    const leavingMark = target.closest(`.${HIGHLIGHT_CLASS}`)
-    if (!leavingMark) return
-
-    const enteringMark = next?.closest(`.${HIGHLIGHT_CLASS}`)
-    const enteringTooltip = next?.closest(`.${TOOLTIP_CLASS}`)
-    if (enteringMark || enteringTooltip) return
+    if (actions.isDisabledWord(currentNormalizedWord)) {
+      await actions.enableWord(currentNormalizedWord)
+    } else {
+      await actions.disableWord(currentNormalizedWord)
+    }
 
     hideTooltip()
   })
 
-  // tooltip 外点击关闭
+  newWordBtn.addEventListener('click', async (e) => {
+    e.stopPropagation()
+    if (!currentNormalizedWord) return
+
+    if (actions.isNewWord(currentNormalizedWord)) {
+      await actions.removeNewWord(currentNormalizedWord)
+    } else {
+      await actions.addNewWord(currentNormalizedWord)
+    }
+
+    hideTooltip()
+  })
+
   document.addEventListener('click', (e) => {
     const target = e.target as HTMLElement
-    if (!target.closest(`.${TOOLTIP_CLASS}`) && !target.closest(`.${HIGHLIGHT_CLASS}`)) {
+
+    if (target.classList.contains(HIGHLIGHT_CLASS)) {
+      e.stopPropagation()
+      showTooltip(target)
+      return
+    }
+
+    if (!target.closest(`.${TOOLTIP_CLASS}`)) {
       hideTooltip()
     }
   })
 
-  // ESC 关闭
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       hideTooltip()
     }
   })
 
-  // 滚动时关闭
   window.addEventListener('scroll', hideTooltip, true)
 }
